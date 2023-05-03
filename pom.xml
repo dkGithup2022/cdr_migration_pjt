@@ -1,0 +1,29 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+
+
+  <name>cdr_migration_app</name>
+  <description>수집 데이터 PGSQL -> Elasticsearch 로 이동 </description>
+
+
+  <groupId>com.dk0124.cdr</groupId>
+  <artifactId>cdr_migration_app</artifactId>
+  <version>1.0-SNAPSHOT</version>
+
+  <packaging>pom</packaging>
+
+  <modules>
+    <module>cdr_elasticsearch</module>
+    <module>cdr_common_constant</module>
+    <module>cdr_common_persistence</module>
+    <module>migration_app</module>
+  </modules>
+
+  <properties>
+    <maven.compiler.source>16</maven.compiler.source>
+    <maven.compiler.target>16</maven.compiler.target>
+  </properties>
+
+
+</project>
