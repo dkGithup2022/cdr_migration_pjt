@@ -1,0 +1,9 @@
+[submodule "cdr_elasticsearch"]
+	path = cdr_elasticsearch
+	url = https://github.com/dkGithup2022/cdr_elasticsearch.git
+[submodule "cdr_common_constant"]
+	path = cdr_common_constant
+	url = https://github.com/dkGithup2022/cdr_common_constant.git
+[submodule "cdr_common_persistence"]
+	path = cdr_common_persistence
+	url = https://github.com/dkGithup2022/cdr_common_persistence.git
