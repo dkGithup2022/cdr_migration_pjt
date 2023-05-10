@@ -1,0 +1,35 @@
+spring:
+  # elasticsearch connection config
+  elasticsearch:
+    port: 9200 # 지금은 로컬에서만
+    host: localhost
+    rest:
+      connection-pool:
+        size: 100
+
+  # postgresql connection config
+  datasource:
+    driver-class-name: org.postgresql.Driver
+    #url: jdbc:postgresql://192.168.35.38:5432/v1
+    url: jdbc:postgresql://1.232.62.62:3906/v1
+    #url: jdbc:postgresql://localhost:5432/v1
+
+    username: postgres1
+    password: postgres1
+    hikari:
+      maximum-pool-size: 30
+      leakDetectionThreshold: 200000
+
+  # jpa query logging
+  jpa:
+    generate-ddl: true
+    hibernate:
+      ddl-auto: validate
+
+logging:
+  level:
+    org:
+      hibernate: DEBUG
+  file:
+    name: migration_log.log
+    path: ./logs

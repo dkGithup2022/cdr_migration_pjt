@@ -18,7 +18,8 @@ import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 public abstract class AbstarctMigration
-	<PG_TYPE,
+		<
+		PG_TYPE,
 		ES_TYPE,
 		PG_REPO,
 		ES_REPO extends ElasticsearchRepository,
@@ -133,7 +134,7 @@ public abstract class AbstarctMigration
 		throw new RuntimeException("CAN NOT READ FROM DATABASE , ");
 	}
 
-	private void printCurrentTimeStamp() {
+	protected void printCurrentTimeStamp() {
 		LocalDateTime time =
 			LocalDateTime.ofInstant(Instant.ofEpochMilli(cursorTimstamp), ZoneId.systemDefault());
 		log.info("long timestamp : {}", cursorTimstamp);

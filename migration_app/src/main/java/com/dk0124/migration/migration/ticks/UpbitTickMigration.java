@@ -9,7 +9,6 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Component;
 
 import com.dk0124.cdr.constants.coinCode.UpbitCoinCode.UpbitCoinCode;
-import com.dk0124.cdr.es.dao.ElasticsearchRepository;
 import com.dk0124.cdr.es.document.upbit.UpbitTickDoc;
 import com.dk0124.cdr.persistence.entity.upbit.tick.UpbitTick;
 import com.dk0124.cdr.persistence.repository.upbit.upbitTickRepository.UpbitTickRepository;
