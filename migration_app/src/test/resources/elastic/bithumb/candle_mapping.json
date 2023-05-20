@@ -1,0 +1,25 @@
+{
+  "properties": {
+    "timestamp": {
+      "type": "long"
+    },
+    "code": {
+      "type": "keyword"
+    },
+    "opening_price": {
+      "type": "double"
+    },
+    "closing_price": {
+      "type": "double"
+    },
+    "high_price": {
+      "type": "double"
+    },
+    "low_price": {
+      "type": "double"
+    },
+    "trade_amount": {
+      "type": "double"
+    }
+  }
+}

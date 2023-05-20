@@ -1,0 +1,40 @@
+{
+  "properties": {
+    "sequentialId": {
+      "type": "long"
+    },
+    "code": {
+      "type": "keyword"
+    },
+    "type": {
+      "type": "keyword"
+    },
+    "trade_price": {
+      "type": "double"
+    },
+    "ask_bid": {
+      "type": "keyword"
+    },
+    "prev_closing_price": {
+      "type": "double"
+    },
+    "change": {
+      "type": "double"
+    },
+    "change_price": {
+      "type": "double"
+    },
+    "trade_date_utc": {
+      "type": "date"
+    },
+    "trade_timestamp": {
+      "type": "date"
+    },
+    "timestamp": {
+      "type": "long"
+    },
+    "stream_type": {
+      "type": "keyword"
+    }
+  }
+}

@@ -1,0 +1,27 @@
+{
+  "properties": {
+    "code": {
+      "type": "keyword"
+    },
+    "datetime": {
+      "type": "long"
+    },
+    "orderbook_units": {
+      "type": "nested",
+      "properties": {
+        "order_type": {
+          "type": "keyword"
+        },
+        "price": {
+          "type": "double"
+        },
+        "quantity": {
+          "type": "double"
+        },
+        "total": {
+          "type": "double"
+        }
+      }
+    }
+  }
+}

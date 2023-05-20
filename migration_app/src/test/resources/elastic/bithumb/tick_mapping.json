@@ -1,0 +1,28 @@
+{
+  "properties": {
+    "code": {
+      "type": "keyword"
+    },
+    "buy_sell_gb": {
+      "type": "integer"
+    },
+    "cont_price": {
+      "type": "double"
+    },
+    "cont_qty": {
+      "type": "double"
+    },
+    "cont_amt": {
+      "type": "double"
+    },
+    "cont_dtm": {
+      "type": "date"
+    },
+    "updn": {
+      "type": "keyword"
+    },
+    "timestamp": {
+      "type": "long"
+    }
+  }
+}

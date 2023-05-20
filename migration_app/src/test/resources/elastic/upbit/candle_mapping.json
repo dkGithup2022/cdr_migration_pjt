@@ -1,0 +1,31 @@
+{
+  "properties" : {
+    "timestamp" : {
+      "type": "long"
+    },
+    "market": {
+      "type": "keyword"
+    },
+    "candle_date_time_utc": {
+      "type": "date"
+    },
+    "candle_date_time_kst": {
+      "type": "date"
+    },
+    "opening_price" : {
+      "type": "double"
+    },
+    "high_price" : {
+      "type": "double"
+    },
+    "trade_price" : {
+      "type": "double"
+    },
+    "candle_acc_trade_price" : {
+      "type": "double"
+    },
+    "candle_acc_trade_volume" : {
+      "type": "double"
+    }
+  }
+}

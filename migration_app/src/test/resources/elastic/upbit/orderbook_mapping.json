@@ -1,0 +1,33 @@
+{
+  "properties": {
+    "code": {
+      "type": "keyword"
+    },
+    "timestamp": {
+      "type": "long"
+    },
+    "total_ask_size": {
+      "type": "double"
+    },
+    "total_bid_size": {
+      "type": "double"
+    },
+    "orderbook_units": {
+      "type": "nested",
+      "properties": {
+        "ask_price": {
+          "type": "double"
+        },
+        "bid_price": {
+          "type": "double"
+        },
+        "ask_size": {
+          "type": "double"
+        },
+        "bid_size": {
+          "type": "double"
+        }
+      }
+    }
+  }
+}
