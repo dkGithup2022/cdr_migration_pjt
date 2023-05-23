@@ -44,6 +44,7 @@ public class BithumbCandleMigration extends AbstarctMigration
 
 	@Override
 	public BithumbCandleDoc mapToDoc(BithumbCandle row) {
+		row.setCode(coinCode.toString());
 		return modelMapper.map(row, BithumbCandleDoc.class);
 	}
 
@@ -59,7 +60,6 @@ public class BithumbCandleMigration extends AbstarctMigration
 			.stream()
 			.toList();
 	}
-
 
 	@Override
 	public void setPGRepo(BithumbCoinCode coinCode) {

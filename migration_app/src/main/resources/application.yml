@@ -2,10 +2,7 @@ spring:
   # elasticsearch connection config
   elasticsearch:
     port: 9200 # 지금은 로컬에서만
-    host: localhost
-    rest:
-      connection-pool:
-        size: 100
+    host: 192.168.35.64
 
   # postgresql connection config
   datasource:
@@ -26,10 +23,6 @@ spring:
     hibernate:
       ddl-auto: validate
 
-logging:
-  level:
-    org:
-      hibernate: DEBUG
   file:
     name: ./logs/migration_log.log
 

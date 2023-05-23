@@ -18,7 +18,7 @@ import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 public abstract class AbstarctMigration
-		<
+	<
 		PG_TYPE,
 		ES_TYPE,
 		PG_REPO,
@@ -51,7 +51,7 @@ public abstract class AbstarctMigration
 	public void readyMigrate(COIN_CODE coinCode, int bulkSize) {
 		this.coinCode = coinCode;
 		this.bulkSize = bulkSize;
-		this.cursorTimstamp = cursorTimstamp;
+		this.cursorTimstamp = Long.MAX_VALUE;
 	}
 
 	public void migrate(COIN_CODE coinCode) {
@@ -65,15 +65,22 @@ public abstract class AbstarctMigration
 			List<PG_TYPE> rows = read();
 			List<ES_TYPE> docs = rows.stream().map(e -> mapToDoc(e)).collect(Collectors.toList());
 
+			log.info("begin fetch ");
+			//update data
+			fetch(docs);
+			log.info("fetch done ");
+
 			// update total cnt
 			migratedCnt += docs.size();
 
-			updateTimeStamp(rows);
 			// update timestamp
+			updateTimeStamp(rows);
 
 			// check it is end;
 			if (endOfTable(rows))
 				break;
+
+			printCurrentTimeStamp();
 
 			iter++;
 			if (iter % 1000 == 0)
@@ -112,7 +119,7 @@ public abstract class AbstarctMigration
 		}
 
 		log.error("current status : {}", this.toString());
-		throw new RuntimeException("CAN NOT READ FROM DATABASE , ");
+		throw new RuntimeException("CAN NOT READ UPSERT , ");
 	}
 
 	public List read() {

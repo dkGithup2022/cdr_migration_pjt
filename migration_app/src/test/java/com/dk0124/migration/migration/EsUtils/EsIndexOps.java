@@ -28,9 +28,10 @@ public class EsIndexOps {
 	private ElasticsearchRestTemplate elasticsearchOperations;
 
 	private final int testPort = 9200;
+	private final String url = "192.168.35.64";
 
 	public EsIndexOps() {
-		RestHighLevelClient client = RestClients.create(ClientConfiguration.create("localhost:" + testPort)).rest();
+		RestHighLevelClient client = RestClients.create(ClientConfiguration.create(url + ":" + testPort)).rest();
 		elasticsearchOperations = new ElasticsearchRestTemplate(client);
 		elasticsearchOperations.setRefreshPolicy(RefreshPolicy.IMMEDIATE); // 테스트에선 refresh interval 무시됨.
 	}
@@ -40,7 +41,7 @@ public class EsIndexOps {
 	}
 
 	public void forceMerge(String index) {
-		String forcemergeUrl = "http://localhost:" + testPort + "/" + index + "/_forcemerge?max_num_segments=1";
+		String forcemergeUrl = "http://" + url + ":" + testPort + "/" + index + "/_forcemerge?max_num_segments=1";
 		RestTemplate restTemplate = new RestTemplate();
 		HttpHeaders headers = new HttpHeaders();
 		headers.setContentType(MediaType.APPLICATION_JSON);
@@ -50,7 +51,7 @@ public class EsIndexOps {
 	}
 
 	public void forceMergeAll() {
-		String forcemergeUrl = "http://localhost:" + testPort + "/_forcemerge";
+		String forcemergeUrl = "http://" + url + ":" + testPort + "/_forcemerge";
 		RestTemplate restTemplate = new RestTemplate();
 		HttpHeaders headers = new HttpHeaders();
 		headers.setContentType(MediaType.APPLICATION_JSON);
@@ -58,7 +59,6 @@ public class EsIndexOps {
 		ResponseEntity<String> response = restTemplate.exchange(forcemergeUrl, HttpMethod.POST, entity, String.class);
 		System.out.println(response.getBody());
 	}
-
 
 	public void createIndexWithMappingAndSetting(String index, String mappingPath, String settingPath) throws
 		IOException {

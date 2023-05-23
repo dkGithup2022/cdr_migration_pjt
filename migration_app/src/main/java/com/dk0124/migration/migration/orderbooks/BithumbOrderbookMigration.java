@@ -7,6 +7,7 @@ import org.modelmapper.ModelMapper;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
+import org.springframework.stereotype.Component;
 
 import com.dk0124.cdr.constants.coinCode.bithumbCoinCode.BithumbCoinCode;
 import com.dk0124.cdr.es.document.bithumb.BithumbOrderbookDoc;
@@ -19,6 +20,7 @@ import com.dk0124.migration.utils.EsUtils;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
+@Component
 public class BithumbOrderbookMigration extends AbstarctMigration
 		<
 		BithumbOrderbook,

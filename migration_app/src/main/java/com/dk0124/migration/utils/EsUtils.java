@@ -89,7 +89,7 @@ public class EsUtils {
 		return doc.getCode() + "_" + doc.getDatetime();
 	}
 
-	// 빗섬 캔들
+	// 빗섬 오더북
 	public static String generateIndex(BithumbOrderbookDoc doc) {
 		String code = doc.getCode();
 		if (BithumbCoinCode.fromString(code) == null)

@@ -6,6 +6,7 @@ import org.modelmapper.ModelMapper;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
+import org.springframework.stereotype.Component;
 
 import com.dk0124.cdr.constants.coinCode.UpbitCoinCode.UpbitCoinCode;
 import com.dk0124.cdr.es.document.upbit.UpbitOrderbookDoc;
@@ -15,6 +16,10 @@ import com.dk0124.cdr.persistence.repositoryUtils.upbit.UpbitOrderbookRepository
 import com.dk0124.migration.migration.AbstarctMigration;
 import com.dk0124.migration.utils.EsUtils;
 
+import lombok.extern.slf4j.Slf4j;
+
+@Slf4j
+@Component
 public class UpbitOrderbookMigration extends AbstarctMigration
 	<
 		UpbitOrderbook,

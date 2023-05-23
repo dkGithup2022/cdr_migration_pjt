@@ -2,7 +2,7 @@ spring:
   # elasticsearch connection config
   elasticsearch:
     port: 9200 # 지금은 로컬에서만
-    host: localhost
+    host: 192.168.35.64
     rest:
       connection-pool:
         size: 100
