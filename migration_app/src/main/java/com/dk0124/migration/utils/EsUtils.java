@@ -12,6 +12,12 @@ import com.dk0124.cdr.es.document.upbit.UpbitOrderbookDoc;
 import com.dk0124.cdr.es.document.upbit.UpbitTickDoc;
 import com.dk0124.cdr.persistence.entity.bithumb.orderbook.BithumbOrderbook;
 
+/**
+ * this class is deprecated
+ *
+ * this one is more feat to cdr_elasticsearch
+ * -> this one no more using
+ */
 public class EsUtils {
 
 	private static final String UPBIT_TICK_INDEX_PREFIX = "upbit_tick";
