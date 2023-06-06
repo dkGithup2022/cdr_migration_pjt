@@ -30,10 +30,11 @@ logging:
   level:
     org:
       hibernate: DEBUG
-
-    tracer: TRACE
   file:
     name: migration_log.log
     path: ./logs
 
 
+app:
+  scheduling:
+    enable: false

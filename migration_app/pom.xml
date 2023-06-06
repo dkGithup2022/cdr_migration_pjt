@@ -30,7 +30,7 @@
         <dependency>
             <groupId>com.dk0124.cdr</groupId>
             <artifactId>cdr_es</artifactId>
-            <version>0.5</version>
+            <version>1.0</version>
         </dependency>
 
         <dependency>

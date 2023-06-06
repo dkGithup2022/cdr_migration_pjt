@@ -26,3 +26,7 @@ spring:
   file:
     name: ./logs/migration_log.log
 
+
+app:
+  scheduling:
+    enable: true
