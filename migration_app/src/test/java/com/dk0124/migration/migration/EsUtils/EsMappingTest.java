@@ -21,6 +21,8 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import com.dk0124.cdr.constants.coinCode.UpbitCoinCode.UpbitCoinCode;
+import com.dk0124.cdr.constants.coinCode.bithumbCoinCode.BithumbCoinCode;
+import com.dk0124.cdr.es.EsUtils;
 import com.dk0124.cdr.es.dao.bithumb.BithumbCandleRespository;
 import com.dk0124.cdr.es.dao.bithumb.BithumbOrderbookResposirtory;
 import com.dk0124.cdr.es.dao.bithumb.BithumbTickRepository;
@@ -32,6 +34,8 @@ import com.dk0124.cdr.es.document.upbit.UpbitOrderbookDoc;
 import com.dk0124.cdr.es.document.upbit.UpbitOrderbookUnit;
 import com.dk0124.cdr.es.document.upbit.UpbitTickDoc;
 
+import lombok.extern.slf4j.Slf4j;
+
 /**
  * spring data elasticsearch 에서 @Document 없이 매핑하는 경우 칼럼에 null  생기는 경우 있음.
  * 연산 후 null check 하는 함수 제작 필요 .
@@ -41,11 +45,10 @@ import com.dk0124.cdr.es.document.upbit.UpbitTickDoc;
 
 @ExtendWith(SpringExtension.class)
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
+@Slf4j
 public class EsMappingTest {
 
-
 	private static EsIndexOps esIndexOps = new EsIndexOps();
-
 
 	@Autowired
 	BithumbOrderbookResposirtory bithumbOrderbookResposirtory;
@@ -61,7 +64,7 @@ public class EsMappingTest {
 	@Autowired
 	UpbitTickRepository upbitTickRepository;
 
-	static String[][] PAIR = new String[][]{{"bithumb", "candle"}, {"bithumb", "tick"}, {
+	static String[][] PAIR = new String[][] {{"bithumb", "candle"}, {"bithumb", "tick"}, {
 		"bithumb", "orderbook"}, {
 		"upbit", "candle"}, {"upbit", "tick"}, {"upbit", "orderbook"}};
 
@@ -74,19 +77,54 @@ public class EsMappingTest {
 			String mp = "elastic/" + vendor + "/" + type + "_mapping.json";
 			String prefix = vendor + "_" + type + "_";
 
-			for (UpbitCoinCode code : UpbitCoinCode.values()) {
-				String[] splitted = code.toString().toLowerCase(Locale.ROOT).split("-");
-				String idx = prefix + String.join("_", splitted);
-				esIndexOps.deleteIndex(idx);
-				esIndexOps.forceMergeAll();
-				esIndexOps.createIndexWithMappingAndSetting(idx, mp, sp);
-				esIndexOps.forceMerge(idx);
+			if (vendor.equals("bithumb")) {
+				for (BithumbCoinCode code : BithumbCoinCode.values()) {
+					String[] splitted = code.toString().toLowerCase(Locale.ROOT).split("-");
+					String idx = "";
+					if (type.equals("tick")) {
+						idx = EsUtils.bithumbTickIndexFromCode(code.toString());
+					} else if (type.equals("orderbook")) {
+						idx = EsUtils.bithumbOrderbookIndexFromCode(code.toString());
+					} else if (type.equals("candle")) {
+						idx = EsUtils.bithumbCandleIndexFromCode(code.toString());
+					}
+
+					if (idx.equals(""))
+						throw new RuntimeException("error");
+					esIndexOps.deleteIndex(idx);
+					//esIndexOps.forceMergeAll();
+					esIndexOps.createIndexWithMappingAndSetting(idx, mp, sp);
+					//esIndexOps.forceMerge(idx);
+					log.info("INDEX CREATED : " + idx);
+				}
+			} else {
+				for (UpbitCoinCode code : UpbitCoinCode.values()) {
+					String[] splitted = code.toString().toLowerCase(Locale.ROOT).split("-");
+
+					String idx = "";
+					if (type.equals("tick")) {
+						idx = EsUtils.upbitTickIndexFromCode(code.toString());
+					} else if (type.equals("orderbook")) {
+						idx = EsUtils.upbitOrderbookIndexFromCode(code.toString());
+					} else if (type.equals("candle")) {
+						idx = EsUtils.upbitCandleIndexFromCode(code.toString());
+					}
+
+					if (idx.equals(""))
+						throw new RuntimeException("error");
+					esIndexOps.deleteIndex(idx);
+					//esIndexOps.forceMergeAll();
+					esIndexOps.createIndexWithMappingAndSetting(idx, mp, sp);
+					//esIndexOps.forceMerge(idx);
+					log.info("INDEX CREATED : " + idx);
+				}
+
 			}
 		}
 	}
 
 	@Test
-	public void recreate_index_(){
+	public void recreate_index_() {
 
 	}
 
@@ -96,7 +134,6 @@ public class EsMappingTest {
 		// given
 		UpbitCoinCode code = UpbitCoinCode.KRW_ADA;
 		String index = "upbit_tick_krw_ada";
-
 
 		for (int i = 0; i < 10; i++) {
 			UpbitTickDoc doc = UpbitTickDoc.builder()
@@ -125,7 +162,6 @@ public class EsMappingTest {
 
 		// when
 		Page<UpbitTickDoc> res = upbitTickRepository.findAll(index, pageable);
-
 
 		//then
 		for (UpbitTickDoc doc : res.getContent()) {
@@ -177,7 +213,6 @@ public class EsMappingTest {
 		// when
 		Page<UpbitCandleDoc> res = upbitCandleRepository.findAll(index, pageable);
 
-
 		//then
 		for (UpbitCandleDoc doc : res.getContent()) {
 			assertNotNull(doc.getTimestamp());
@@ -191,7 +226,6 @@ public class EsMappingTest {
 
 		}
 	}
-
 
 	@Test
 	@DisplayName(" null check :  upbit orderbook ")
@@ -225,7 +259,6 @@ public class EsMappingTest {
 		// when
 		Page<UpbitOrderbookDoc> res = upbitOrderbookRepository.findAll(index, pageable);
 
-
 		//then
 		for (UpbitOrderbookDoc doc : res.getContent()) {
 			assertNotNull(doc.getCode());
@@ -238,6 +271,5 @@ public class EsMappingTest {
 			assertNotNull(doc.getOrderBookUnits().get(0).getBidSize());
 		}
 	}
-
 
 }

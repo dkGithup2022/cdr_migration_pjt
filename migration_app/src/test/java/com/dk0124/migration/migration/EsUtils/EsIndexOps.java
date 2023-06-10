@@ -30,8 +30,18 @@ public class EsIndexOps {
 	private final int testPort = 9200;
 	private final String url = "192.168.35.64";
 
+	private final String code = "???????????????????";
+
 	public EsIndexOps() {
-		RestHighLevelClient client = RestClients.create(ClientConfiguration.create(url + ":" + testPort)).rest();
+
+		RestHighLevelClient client = RestClients.create(
+
+			ClientConfiguration.builder()
+				.connectedTo(url + ":" + testPort )
+				.withBasicAuth("elastic", code) // put your credentials
+				.build()
+
+		).rest();
 		elasticsearchOperations = new ElasticsearchRestTemplate(client);
 		elasticsearchOperations.setRefreshPolicy(RefreshPolicy.IMMEDIATE); // 테스트에선 refresh interval 무시됨.
 	}
