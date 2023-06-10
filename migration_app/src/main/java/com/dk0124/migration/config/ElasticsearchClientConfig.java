@@ -20,12 +20,16 @@ public class ElasticsearchClientConfig extends AbstractElasticsearchConfiguratio
 	@Value("${spring.elasticsearch.port}")
 	private int port;
 
+	@Value("${spring.elasticsearch.code}")
+	private String code;
+
 	@Override
 	@Bean
 	public RestHighLevelClient elasticsearchClient() {
-		SnakeCaseFieldNamingStrategy a;
-		final ClientConfiguration clientConfiguration = ClientConfiguration.builder()
-			.connectedTo(host + ":" + port)// connect to http
+		final ClientConfiguration clientConfiguration
+			= ClientConfiguration.builder()
+			.connectedTo(host + ":" + port)
+			.withBasicAuth("elastic", code) // put your credentials
 			.build();
 
 		return RestClients.create(clientConfiguration).rest();
@@ -35,4 +39,5 @@ public class ElasticsearchClientConfig extends AbstractElasticsearchConfiguratio
 	public ElasticsearchOperations elasticsearchOperations() {
 		return new ElasticsearchRestTemplate(elasticsearchClient());
 	}
+
 }
