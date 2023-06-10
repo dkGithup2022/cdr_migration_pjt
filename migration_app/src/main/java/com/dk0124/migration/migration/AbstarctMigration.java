@@ -11,6 +11,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 
 import com.dk0124.cdr.es.dao.ElasticsearchRepository;
+import com.fasterxml.jackson.core.JsonProcessingException;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -36,7 +37,7 @@ public abstract class AbstarctMigration
 
 	@Getter
 	@Setter
-	protected Integer bulkSize = 3000;
+	protected Integer bulkSize = 1000;
 	protected COIN_CODE coinCode;
 	protected Long migratedCnt = 0L;
 
@@ -59,16 +60,15 @@ public abstract class AbstarctMigration
 		setPGRepo(coinCode);
 		log.info("\n\n******************************************************");
 		log.info("BEGIN MIGRATION JOB ON {}", coinCode.toString());
+		migratedCnt = 0L;
 		Long iter = 0L;
 		while (true) {
 			// read from postgres
 			List<PG_TYPE> rows = read();
 			List<ES_TYPE> docs = rows.stream().map(e -> mapToDoc(e)).collect(Collectors.toList());
 
-			log.info("begin fetch ");
 			//update data
-			fetch(docs);
-			log.info("fetch done ");
+			bulkFetch(docs);
 
 			// update total cnt
 			migratedCnt += docs.size();
@@ -80,7 +80,6 @@ public abstract class AbstarctMigration
 			if (endOfTable(rows))
 				break;
 
-			printCurrentTimeStamp();
 
 			iter++;
 			if (iter % 1000 == 0)
@@ -106,6 +105,29 @@ public abstract class AbstarctMigration
 				for (ES_TYPE doc : docs)
 					upsertDoc(doc);
 
+				return;
+			} catch (Exception e) {
+				retry++;
+				try {
+					Thread.sleep(2000);
+				} catch (InterruptedException ex) {
+					throw new RuntimeException(ex);
+				}
+
+				log.error(e.getMessage());
+			}
+		}
+
+		log.error("current status : {}", this.toString());
+		throw new RuntimeException("CAN NOT READ UPSERT , ");
+	}
+
+	public void bulkFetch(List<ES_TYPE> docs) {
+		int retry = 0;
+		while (retry < MAX_RETRY) {
+			try {
+				bulkInsert(docs);
+				return;
 			} catch (Exception e) {
 				retry++;
 				try {
@@ -149,6 +171,8 @@ public abstract class AbstarctMigration
 	}
 
 	protected abstract void updateTimeStamp(List<PG_TYPE> rows);
+
+	protected abstract void bulkInsert(List<ES_TYPE> docs) throws JsonProcessingException;
 
 	public boolean endOfTable(List list) {
 		return list == null || list.size() == 0 || list.size() < this.bulkSize + 1;

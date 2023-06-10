@@ -15,6 +15,7 @@ import com.dk0124.cdr.persistence.repository.bithumb.bithumbCandleRepository.Bit
 import com.dk0124.cdr.persistence.repositoryUtils.bithumb.candle.BithumbCandleRepositoryUtils;
 import com.dk0124.migration.migration.AbstarctMigration;
 import com.dk0124.migration.utils.EsUtils;
+import com.fasterxml.jackson.core.JsonProcessingException;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -40,6 +41,11 @@ public class BithumbCandleMigration extends AbstarctMigration
 	@Override
 	protected void updateTimeStamp(List<BithumbCandle> rows) {
 		this.cursorTimstamp = rows.get(rows.size() - 2).getTimestamp() + 1;
+	}
+
+	@Override
+	protected void bulkInsert(List<BithumbCandleDoc> docs) throws JsonProcessingException {
+		esRepository.bulkIndex(docs);
 	}
 
 	@Override

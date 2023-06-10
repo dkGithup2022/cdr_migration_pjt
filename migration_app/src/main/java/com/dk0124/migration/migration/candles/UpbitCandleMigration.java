@@ -18,6 +18,7 @@ import com.dk0124.cdr.persistence.repository.upbit.upbitCandleRepository.UpbitCa
 import com.dk0124.cdr.persistence.repositoryUtils.upbit.UpbitCandleRepositoryUtils;
 import com.dk0124.migration.migration.AbstarctMigration;
 import com.dk0124.migration.utils.EsUtils;
+import com.fasterxml.jackson.core.JsonProcessingException;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -41,6 +42,11 @@ public class UpbitCandleMigration extends AbstarctMigration
 	@Override
 	protected void updateTimeStamp(List<UpbitCandle> rows) {
 		this.cursorTimstamp = rows.get(rows.size() - 2).getTimestamp() + 1;
+	}
+
+	@Override
+	protected void bulkInsert(List<UpbitCandleDoc> docs) throws JsonProcessingException {
+		esRepository.bulkIndex(docs);
 	}
 
 	@Override

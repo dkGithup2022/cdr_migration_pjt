@@ -15,6 +15,7 @@ import com.dk0124.cdr.persistence.repository.upbit.upbitTickRepository.UpbitTick
 import com.dk0124.cdr.persistence.repositoryUtils.upbit.UpbitTickRepositoryUtils;
 import com.dk0124.migration.migration.AbstarctMigration;
 import com.dk0124.migration.utils.EsUtils;
+import com.fasterxml.jackson.core.JsonProcessingException;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -40,6 +41,11 @@ public class UpbitTickMigration extends AbstarctMigration
 	@Override
 	protected void updateTimeStamp(List<UpbitTick> rows) {
 		this.cursorTimstamp = rows.get(rows.size() - 2).getTimestamp() + 1;
+	}
+
+	@Override
+	protected void bulkInsert(List<UpbitTickDoc> docs) throws JsonProcessingException {
+		esRepository.bulkIndex(docs);
 	}
 
 	@Override

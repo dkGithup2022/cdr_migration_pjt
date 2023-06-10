@@ -16,6 +16,7 @@ import com.dk0124.cdr.persistence.repository.bithumb.bithumbTickRepository.Bithu
 import com.dk0124.cdr.persistence.repositoryUtils.bithumb.BithumbTickRepositoryUtils;
 import com.dk0124.migration.migration.AbstarctMigration;
 import com.dk0124.migration.utils.EsUtils;
+import com.fasterxml.jackson.core.JsonProcessingException;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -41,6 +42,11 @@ public class BithumbTickMigration
 	@Override
 	protected void updateTimeStamp(List<BithumbTick> rows) {
 		this.cursorTimstamp = rows.get(rows.size() - 2).getTimestamp() + 1;
+	}
+
+	@Override
+	protected void bulkInsert(List<BithumbTickDoc> docs) throws JsonProcessingException {
+		esRepository.bulkIndex(docs);
 	}
 
 	@Override
