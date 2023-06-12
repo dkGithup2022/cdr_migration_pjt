@@ -42,7 +42,7 @@ es bulk 결과가 es 에 바로 조회가 되지 않으면서 테스트가 깨�
 ##### super class 
 
 
-```agsl
+```java
 
 
 @Slf4j
@@ -233,7 +233,7 @@ public abstract class AbstarctMigration
 
 </br>
 
-```
+```java
 public void migrate(COIN_CODE coinCode) {
 
 		setPGRepo(coinCode); // 1. postgresql dao 구현체 설정 
@@ -282,7 +282,7 @@ public void migrate(COIN_CODE coinCode) {
 
 
 - pgsql read 
-```agsl
+```java
 public List read() {
 		int retry = 0;
 		while (retry < MAX_RETRY) {
@@ -308,7 +308,7 @@ public List read() {
 </br>
 
 - elasticsearch bulk
-```agsl
+```java
 
 	public void bulkFetch(List<ES_TYPE> docs) {
 		int retry = 0;
@@ -361,7 +361,7 @@ public List read() {
 
 - 구현체의 타입 정의 예시 
 - 
-```agsl
+```java
 @Component
 @Slf4j
 public class BithumbTickMigration
