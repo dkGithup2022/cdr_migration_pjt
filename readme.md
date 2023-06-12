@@ -14,14 +14,14 @@
  cdr_elasticsearch 에 추가된 bulk operation 의 테스트 코드에 이슈가 있습니다.
 
 es bulk 결과가 es 에 바로 조회가 되지 않으면서 테스트가 깨지는 부분이 있어서 임시로 막아놓은 상황입니다.
-해당 테스트는 module pom 파일의 <BulkOperationTestOnModule> 가 false 이면 실행되지 않으니, 테스트 깨지면 해당 밸류가 false 로 되어 있는지 확인 
+해당 테스트는 module pom 파일의 BulkOperationTestOnModule 가 false 이면 실행되지 않으니, 테스트 깨지면 해당 밸류가 false 로 되어 있는지 확인 
 
 
 </br>
 
 ###### 기록: 실행 시 인텔리제이에서 실행할 것 추천.
 
-* 6월 추가 이슈 :  bulk가 아닌 parametized test 반복에서도 비슷한 현상이 발견됨. 해당 문제는 테스트를 다시 돌리거나 jar 로 만들지 말고 인텔리제이에서 그냥 실행 버튼 누르는 것으로도 해결됨.
+* 6월 추가 이슈 :  bulk가 아닌 parametized test 반복에서도 비슷한 현상이 발견됨. 해당 문제는 테스트를 다시 돌리거나 mvn package & mvn test  로 만들지 말고 인텔리제이에서 그냥 실행 버튼 누르는 것으로도 해결됨.
 
 
 
